@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!
+{% endblock %}
+
+{% block body %}
+	{% include "shared/_jumbotron.html.twig" %}
+	<div class="container">
+		<h2>Les derniers biens</h2>
+		<div class="row flex">
+			{% for property in properties %}
+				<div class="col-md4">
+					<div class="card">
+						<div class="card-body">
+							<h3 class="card-title">
+								<a href="{{path('property_show', { slug:property.slug})}}">{{property.title}}</a>
+							</h3>
+							<p class="card-text">{{property.city}}
+								({{property.postalCode}})</p>
+							<div class="text-info">{{property.price | number_format(0,'','_')}}
+								€</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}
