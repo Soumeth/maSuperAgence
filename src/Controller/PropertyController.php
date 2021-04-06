@@ -10,22 +10,31 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PropertyController extends AbstractController
 {
+    private $repository;
+
+    public function __construct(PropertyRepository $repository)
+    {
+        $this->repository = $repository;
+    }
     /**
-     * @Route("/property", name="property")
+     * @Route("/biens", name="properties")
      */
     public function index(): Response
     {
+        $properties = $this->repository->findAll();
+        // dd($properties);
         return $this->render('property/index.html.twig', [
-            'controller_name' => 'PropertyController',
+            'properties' => '$properties'
         ]);
     }
 
     /**
      * @Route("/biens/{slug}", name="property_show")
      */
-    public function show(PropertyRepository $propertyRepository, $slug)
+    public function show($slug)
     {
-        $property = $propertyRepository->findOneBySlug($slug);
+        // dd($this->repository);
+        $property = $this->repository->findOneBySlug($slug);
         //dd($property);
         if (!$property || $property->getSlug() !== $slug) {
             return $this->redirectToRoute('home');
